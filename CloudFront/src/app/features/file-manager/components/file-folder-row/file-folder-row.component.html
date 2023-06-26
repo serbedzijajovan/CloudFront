@@ -1,0 +1,9 @@
+<tr (click)="handleClick()">
+  <td>
+    <img [ngSrc]="getImageSrc()" width="60" height="40" alt="">
+    <p>{{ getName() }}</p>
+  </td>
+  <td>{{ getCreationTime() | dateFormat }}</td>
+  <td>{{ getLastModifiedTime() | dateFormat }}</td>
+  <td>{{ getFileSize() }}</td>
+</tr>

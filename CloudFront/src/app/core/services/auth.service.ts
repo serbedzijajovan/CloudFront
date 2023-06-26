@@ -1,10 +1,10 @@
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, Observable, throwError} from "rxjs";
-import {User} from "../models/user";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {StorageService} from "./storage.service";
 import {Credentials} from "../../features/authentication/models/credentials";
 import {Injectable} from "@angular/core";
+import {AuthToken} from "../../features/authentication/models/auth-token";
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +16,16 @@ export class AuthService {
   constructor(private http: HttpClient, private storageService: StorageService) {
   }
 
-  loginUser(credentials: Credentials): Observable<any> {
+  loginUser(credentials: Credentials): Observable<AuthToken> {
     let api = `${this.apiUrl}/login`;
-    return this.http.post(api, credentials).pipe(catchError(this.handleError));
+    return this.http.post<AuthToken>(api, credentials)
+      .pipe(
+        map(token => {
+          this.setAuthToken(token.access_token);
+          return token;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   isLoggedIn(): boolean {

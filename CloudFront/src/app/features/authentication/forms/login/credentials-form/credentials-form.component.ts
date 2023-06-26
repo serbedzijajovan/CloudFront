@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NotificationService} from "../../../../../core/services/notification.service";
 import {AuthService} from "../../../../../core/services/auth.service";
 import {Credentials} from "../../../models/credentials";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-form',
@@ -17,12 +18,11 @@ export class CredentialsFormComponent implements OnInit {
 
   @Output() onBack = new EventEmitter<void>();
   @Output() onLoginSubmit = new EventEmitter<void>();
-  @Output() onResetPassword = new EventEmitter<void>();
-  @Output() renewPasswordRequired = new EventEmitter<void>();
 
   constructor(
     private authService: AuthService,
-    private notificationService: NotificationService) {
+    private notificationService: NotificationService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -37,8 +37,7 @@ export class CredentialsFormComponent implements OnInit {
 
       this.authService.loginUser(credentials).subscribe({
         next: () => {
-          this.onLoginSubmit.emit();
-          this.notificationService.showSuccess("Logged", "You are logged in", 'topRight');
+          this.router.navigate(['home']);
         },
         error: (error) => {
           if (error.status == 401 || error.status == 403) {

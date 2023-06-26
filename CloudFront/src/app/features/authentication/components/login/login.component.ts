@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {CredentialsFormComponent} from "../../forms/login/credentials-form/credentials-form.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -13,9 +14,5 @@ export class LoginComponent implements OnInit{
   }
 
   ngOnInit(): void {
-  }
-
-  login() {
-
   }
 }
