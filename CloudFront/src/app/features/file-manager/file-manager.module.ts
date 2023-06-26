@@ -7,6 +7,7 @@ import {MaterialModule} from "../../material/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CreateAlbumDialogComponent } from './dialogs/create-album-dialog/create-album-dialog.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { UploadFileDialogComponent } from './dialogs/upload-file-dialog/upload-file-dialog.component';
 
 
 
@@ -14,7 +15,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
   declarations: [
     MyAlbumsComponent,
     FileFolderRowComponent,
-    CreateAlbumDialogComponent
+    CreateAlbumDialogComponent,
+    UploadFileDialogComponent
   ],
   exports: [
     FileFolderRowComponent

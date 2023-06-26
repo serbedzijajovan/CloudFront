@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {Album} from "../models/album";
+import {UploadData} from "../models/upload-data";
 
 @Injectable({
   providedIn: 'root'

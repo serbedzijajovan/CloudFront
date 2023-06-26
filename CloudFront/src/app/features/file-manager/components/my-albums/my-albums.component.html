@@ -29,7 +29,8 @@
               <mat-icon>home</mat-icon>
               <span>Home</span>
             </button>
-            <button mat-menu-item *ngFor="let folder of pathWithoutLast; let i = index" (click)="navigateToFolderInPath(i)">
+            <button mat-menu-item *ngFor="let folder of pathWithoutLast; let i = index"
+                    (click)="navigateToFolderInPath(i)">
               <mat-icon>folder</mat-icon>
               <span>{{ folder }}</span>
             </button>
@@ -41,12 +42,20 @@
         </li>
       </ul>
     </div>
-    <a class="btn-download" (click)="openCreateAlbumDialog()">
-      <i class='fa fa-solid fa-plus-circle'></i> &nbsp;
-      <span class="text">
+    <div class="right">
+      <a class="btn-download" (click)="openCreateAlbumDialog()">
+        <i class='fa fa-solid fa-plus-circle'></i> &nbsp;
+        <span class="text">
         Create Album
       </span>
-    </a>
+      </a>
+      <a *ngIf='albumName != "INITIAL"' class="btn-upload" (click)="openUploadFileDialog()">
+        <i class='fa fa-solid fa-plus-circle'></i> &nbsp;
+        <span class="text">
+        Upload File
+      </span>
+      </a>
+    </div>
   </div>
 
   <div class="table-data">

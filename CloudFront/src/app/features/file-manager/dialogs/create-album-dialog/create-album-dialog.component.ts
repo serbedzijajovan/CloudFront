@@ -40,11 +40,14 @@ export class CreateAlbumDialogComponent implements OnInit {
         albumName = this.currentPath + '/' + albumName;
       }
 
-      this.albumService.createAlbum(albumName).subscribe((response) => {
-        this.dialogRef.close(true);
-      }, (error) => {
-        if (error.status == 409) {
-          this.notificationService.showWarning("Name already exists", "Album name already exists", "topRight");
+      this.albumService.createAlbum(albumName).subscribe({
+        next: () => {
+          this.dialogRef.close(true);
+        },
+        error: (error) => {
+          if (error.status == 409) {
+            this.notificationService.showWarning("Name already exists", "Album name already exists", "topRight");
+          }
         }
       });
     }

@@ -160,6 +160,28 @@ thead tr {
   background: #fff;  /* ensure the background is not transparent */
 }
 
+.right {
+  display: flex;
+}
+
+.right a {
+  margin-right: 1em;
+}
+
+.btn-upload {
+  cursor: pointer;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 36px;
+  background: var(--green);
+  color: var(--light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  font-weight: 500;
+}
+
 @media screen and (max-width: 576px) {
   main .box-info {
     grid-template-columns: 1fr;
