@@ -43,6 +43,11 @@ export class UploadFileDialogComponent implements OnInit{
   }
 
   create() {
+    if (this.file && this.file.size > 2.5 * 1024 * 1024) {
+      this.notificationService.showWarning("File too large", "Maximum size is 2.5 Mb", "topRight");
+      return;
+    }
+
     if (this.uploadFileForm.valid && this.file && this.fileContent) {
       const uploadData: UploadData = {
         album_name: this.currentPath,

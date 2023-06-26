@@ -10,6 +10,9 @@ import {Subalbum} from "../../models/subalbum";
 export class FileFolderRowComponent implements OnInit{
   @Input() item: File | Subalbum | null = null;
   @Input() navigateToAlbum!: (albumName: string) => void;
+  @Input() deleteAlbum!: (albumName: string) => void;
+  @Input() downloadFile!: (fileName: string, fileType: string) => void;
+  @Input() deleteFile!: (fileName: string) => void;
 
   isFile: boolean = false;
 
@@ -60,12 +63,30 @@ export class FileFolderRowComponent implements OnInit{
 
   getLastModifiedTime(): string {
     if (!this.item) return '';
-    // TODO: Replace with actual last modified time for Subalbum
-    return this.isFile ? (this.item as File).last_modified_time : '10-10-2020';
+    return this.isFile ? (this.item as File).last_modified_time : '-';
   }
 
   getFileSize(): number | string {
     if (!this.item || !this.isFile) return '-';
-    return (this.item as File).file_size;
+    const fileSizeInMb = (this.item as File).file_size / 1024;
+    const roundedSize = fileSizeInMb.toFixed(2);
+    return `${roundedSize} Mb`;
+  }
+
+  downloadFileClick() {
+    if (this.isFile) {
+      this.downloadFile((this.item as File).file_name, (this.item as File).file_type);
+    }
+  }
+  deleteFileClick() {
+    if (this.isFile) {
+      this.deleteFile((this.item as File).file_name);
+    }
+  }
+
+  deleteAlbumClick() {
+    if (!this.isFile) {
+      this.deleteAlbum((this.item as Subalbum).name);
+    }
   }
 }

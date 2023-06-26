@@ -4,7 +4,6 @@ import { FileFolderRowComponent } from './components/file-folder-row/file-folder
 import {MyAlbumsComponent} from "./components/my-albums/my-albums.component";
 import {SharedModule} from "../../shared/shared.module";
 import {MaterialModule} from "../../material/material.module";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CreateAlbumDialogComponent } from './dialogs/create-album-dialog/create-album-dialog.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { UploadFileDialogComponent } from './dialogs/upload-file-dialog/upload-file-dialog.component';

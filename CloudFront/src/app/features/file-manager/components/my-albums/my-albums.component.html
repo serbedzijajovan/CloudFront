@@ -72,6 +72,7 @@
           <th>Creation Date</th>
           <th>Last Change</th>
           <th>Size</th>
+          <th class="table-button"></th>
         </tr>
         </thead>
 
@@ -81,6 +82,9 @@
           *ngFor="let item of allItems"
           [item]="item"
           [navigateToAlbum]="navigateToAlbum.bind(this)"
+          [deleteAlbum]="deleteAlbum.bind(this)"
+          [downloadFile]="downloadFile.bind(this)"
+          [deleteFile]="deleteFile.bind(this)"
         >
         </app-file-folder-row>
         </tbody>

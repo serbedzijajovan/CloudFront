@@ -35,8 +35,13 @@ export class AlbumService {
     );
   }
 
-  removeAlbum(albumId: string) {
-    return this.http.delete(`${this.apiUrl}/${albumId}`);
+  deleteAlbum(albumName: string) {
+    const api = `${this.apiUrl}/delete`;
+    return this.http.delete(api, {
+      params: {album_name: albumName}
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

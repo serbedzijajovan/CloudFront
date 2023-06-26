@@ -168,6 +168,10 @@ thead tr {
   margin-right: 1em;
 }
 
+.table-button {
+  width: 5%;
+}
+
 .btn-upload {
   cursor: pointer;
   height: 36px;
