@@ -13,6 +13,7 @@ export class FileFolderRowComponent implements OnInit{
   @Input() deleteAlbum!: (albumName: string) => void;
   @Input() downloadFile!: (fileName: string, fileType: string) => void;
   @Input() deleteFile!: (fileName: string) => void;
+  @Input() openShareFileDialog!: (fileName: string) => void;
 
   isFile: boolean = false;
 
@@ -73,11 +74,18 @@ export class FileFolderRowComponent implements OnInit{
     return `${roundedSize} Mb`;
   }
 
+  openShareFileDialogClick() {
+    if (this.isFile) {
+      this.openShareFileDialog((this.item as File).file_name);
+    }
+  }
+
   downloadFileClick() {
     if (this.isFile) {
       this.downloadFile((this.item as File).file_name, (this.item as File).file_type);
     }
   }
+
   deleteFileClick() {
     if (this.isFile) {
       this.deleteFile((this.item as File).file_name);

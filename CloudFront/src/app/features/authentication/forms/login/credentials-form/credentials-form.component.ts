@@ -40,8 +40,10 @@ export class CredentialsFormComponent implements OnInit {
           this.router.navigate(['home']);
         },
         error: (error) => {
-          if (error.status == 401 || error.status == 403) {
-            this.notificationService.showWarning("Warning", "The credentials you entered are invalid!", 'topRight');
+          if (error.status == 401) {
+            this.notificationService.showWarning("Invalid Credentials", "The credentials you entered are invalid!", 'topRight');
+          } else if (error.status == 403) {
+            this.notificationService.showWarning("Account not verified", "You did not verify your account!", 'topRight');
           } else {
             this.notificationService.showDefaultError('topRight');
           }

@@ -32,7 +32,11 @@
         [controlName]="'password'"
         [type]="'password'"
         [icon]="'fas fa-lock'"
-        [placeholder]="'Password'">
+        [placeholder]="'Password'"
+        [errorMessages]="{
+          pattern: 'Must have one uppercase and one numeric letter'
+        }"
+      >
       </app-form-field>
 
       <app-form-field
@@ -85,7 +89,11 @@
         [controlName]="'password'"
         [type]="'password'"
         [icon]="'fas fa-lock'"
-        [placeholder]="'Password'">
+        [placeholder]="'Password'"
+        [errorMessages]="{
+          pattern: 'Must have one uppercase and one numeric letter'
+        }"
+      >
       </app-form-field>
 
       <app-form-field

@@ -5,6 +5,7 @@ import {UserRegistrationDataService} from "../../../services/user-registration-d
 import {UserService} from "../../../../../core/services/user.service";
 import {UserRegistrationData} from "../../../models/user-registration-data";
 import {Router} from "@angular/router";
+import {AccountData} from "../../../models/account-data";
 
 @Component({
   selector: 'app-more-info-form',
@@ -13,7 +14,7 @@ import {Router} from "@angular/router";
 })
 export class MoreInfoFormComponent implements OnInit{
   allTextPattern = "[a-zA-Z][a-zA-Z]*";
-  datePattern = "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-[12][0-9]{3}$";
+  datePattern = "^[12][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$";
 
   moreInfoForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.pattern(this.allTextPattern), Validators.minLength(3)]),
@@ -25,7 +26,7 @@ export class MoreInfoFormComponent implements OnInit{
   @Output() onBack = new EventEmitter<void>();
   @Output() onFormSubmit = new EventEmitter<void>();
 
-  private formData: { isReferral: boolean, data: any } | null = null;
+  private formData: { isReferral: boolean, data: AccountData } | null = null;
 
   constructor(
     private notificationService: NotificationService,
@@ -45,11 +46,6 @@ export class MoreInfoFormComponent implements OnInit{
   }
 
   submitForm() {
-    this.router.navigate(['/login-register'], { skipLocationChange: true }).then(() => {
-      window.location.reload()
-      this.notificationService.showSuccess("Account successfully created", "Confirmation is sent to your email.", "topRight");
-    });
-
     if (!this.moreInfoForm.valid || !this.formData) {
       return;
     }
@@ -62,6 +58,17 @@ export class MoreInfoFormComponent implements OnInit{
       username: this.formData.data.username,
       password: this.formData.data.password,
     };
+
+    console.log(user);
+
+    this.userService.registerUser(user).subscribe({
+      next: () => {
+        this.notificationService.showSuccess("Successful registration", "You have to confirm email that is sent to you", "topLeft");
+      },
+      error: (error) => {
+        this.notificationService.showDefaultError("topLeft");
+      }
+    })
   }
 
   reset() {

@@ -49,9 +49,12 @@ export class UploadFileDialogComponent implements OnInit{
     }
 
     if (this.uploadFileForm.valid && this.file && this.fileContent) {
+      const extension = this.file.name.split('.').pop();
+      const fileName = this.uploadFileForm.get('name')?.value ?? "";
+
       const uploadData: UploadData = {
         album_name: this.currentPath,
-        file_name: this.uploadFileForm.get('name')?.value ?? "",
+        file_name: `${fileName}.${extension}`,
         file_type: this.file.type,
         file_size: Math.floor(this.file.size / 1024),
         description: this.uploadFileForm.get('description')?.value ?? "",

@@ -1,10 +1,10 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Subject} from "rxjs";
 import {NotificationService} from "../../../../../core/services/notification.service";
 import {match} from "../../../../../shared/utilities/match.validator";
 import {UserRegistrationDataService} from "../../../services/user-registration-data.service";
 import {UserService} from "../../../../../core/services/user.service";
+import {AccountData} from "../../../models/account-data";
 
 @Component({
   selector: 'app-account-creation-form',
@@ -15,9 +15,11 @@ export class AccountCreationFormComponent implements OnInit {
   activeTab = 'signup';
   lineLeft = 0;
 
+  passwordPattern = '^(?=.*[A-Z])(?=.*\\d).+$';
+
   signupForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(this.passwordPattern)]),
     confirmPassword: new FormControl('', [Validators.required,])
   }, {validators: [match('password', 'confirmPassword')]});
 
@@ -25,7 +27,7 @@ export class AccountCreationFormComponent implements OnInit {
     referralUsername: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    confirmPassword: new FormControl('', [Validators.required,])
+    confirmPassword: new FormControl('', [Validators.required, Validators.pattern(this.passwordPattern)])
   }, {validators: [match('password', 'confirmPassword')]});
 
   @Output() onFormSubmit = new EventEmitter<void>();
@@ -41,20 +43,29 @@ export class AccountCreationFormComponent implements OnInit {
 
   submitForm() {
     let isReferral = false;
-    let formValue = {};
+    let accountData: AccountData;
 
     if (this.activeTab === "signup" && this.signupForm.valid) {
-      formValue = this.signupForm.value;
+      accountData = {
+        username: this.signupForm.value['username'] ?? "",
+        password: this.signupForm.value['password'] ?? "",
+        confirmPassword: this.signupForm.value['confirmPassword'] ?? "",
+      };
     } else if (this.activeTab === "referral" && this.referralForm.valid) {
-      formValue = this.referralForm.value;
+      accountData = {
+        referralUsername: this.referralForm.value['referralUsername'] ?? "",
+        username: this.referralForm.value['username'] ?? "",
+        password: this.referralForm.value['password'] ?? "",
+        confirmPassword: this.referralForm.value['confirmPassword'] ?? "",
+      };
       isReferral = true;
     } else {
       return;
     }
 
-    this.userService.checkUsernameAvailability(this.referralForm.get('username')?.value ?? '').subscribe({
+    this.userService.checkUsernameAvailability(accountData.username).subscribe({
       next: () => {
-        this.registrationDataService.setRegistrationData({isReferral: isReferral, data: formValue});
+        this.registrationDataService.setRegistrationData({isReferral: isReferral, data: accountData});
         this.onFormSubmit.emit();
       },
       error: (error) => {
@@ -63,9 +74,6 @@ export class AccountCreationFormComponent implements OnInit {
         if (error.status == 409) {
           this.notificationService.showWarning("Username taken", "Username is already taken!", "topLeft");
         }
-
-        this.registrationDataService.setRegistrationData({isReferral: isReferral, data: formValue});
-        this.onFormSubmit.emit();
       }
     });
   }
