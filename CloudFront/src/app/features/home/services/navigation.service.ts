@@ -10,7 +10,7 @@ export class NavigationService {
   getNavItems(): NavItem[] {
     return [
       { routeLink: '/home/my-albums/', label: 'My Albums', icon: 'fa fa-solid fa-folder-open' },
-      { routeLink: '/user/certificate-requests', label: 'Shared With Me', icon: 'fa fa-user-group' }
+      { routeLink: '/home/shared-with-me/', label: 'Shared With Me', icon: 'fa fa-user-group' }
     ];
   }
 }

@@ -13,6 +13,7 @@ export class FormFieldComponent implements OnInit {
   @Input() icon!: string;
   @Input() placeholder!: string;
   @Input() errorMessages!: { [key: string]: string };
+  @Input() disabled: boolean = false;
 
   constructor() {
   }

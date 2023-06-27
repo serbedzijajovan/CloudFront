@@ -76,7 +76,7 @@
         </tr>
         </thead>
 
-        <tbody class="pera">
+        <tbody>
         <app-file-folder-row
           class="table-line"
           *ngFor="let item of allItems"
@@ -86,6 +86,7 @@
           [downloadFile]="downloadFile.bind(this)"
           [deleteFile]="deleteFile.bind(this)"
           [openShareFileDialog]="openShareFileDialog.bind(this)"
+          [openEditFileDialog]="openEditFileDialog.bind(this)"
         >
         </app-file-folder-row>
         </tbody>

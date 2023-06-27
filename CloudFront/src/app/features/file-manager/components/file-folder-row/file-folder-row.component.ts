@@ -7,13 +7,14 @@ import {Subalbum} from "../../models/subalbum";
   templateUrl: './file-folder-row.component.html',
   styleUrls: ['./file-folder-row.component.css']
 })
-export class FileFolderRowComponent implements OnInit{
+export class FileFolderRowComponent implements OnInit {
   @Input() item: File | Subalbum | null = null;
   @Input() navigateToAlbum!: (albumName: string) => void;
   @Input() deleteAlbum!: (albumName: string) => void;
   @Input() downloadFile!: (fileName: string, fileType: string) => void;
   @Input() deleteFile!: (fileName: string) => void;
   @Input() openShareFileDialog!: (fileName: string) => void;
+  @Input() openEditFileDialog!: (file: File) => void;
 
   isFile: boolean = false;
 
@@ -72,6 +73,12 @@ export class FileFolderRowComponent implements OnInit{
     const fileSizeInMb = (this.item as File).file_size / 1024;
     const roundedSize = fileSizeInMb.toFixed(2);
     return `${roundedSize} Mb`;
+  }
+
+  openEditFileDialogClick() {
+    if (this.isFile) {
+      this.openEditFileDialog((this.item as File));
+    }
   }
 
   openShareFileDialogClick() {

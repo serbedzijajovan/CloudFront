@@ -10,6 +10,7 @@ import {CreateAlbumDialogComponent} from "../../dialogs/create-album-dialog/crea
 import {UploadFileDialogComponent} from "../../dialogs/upload-file-dialog/upload-file-dialog.component";
 import {FileService} from "../../services/file.service";
 import {ShareFileDialogComponent} from "../../dialogs/share-file-dialog/share-file-dialog.component";
+import {EditFileDialogComponent} from "../../dialogs/edit-file-dialog/edit-file-dialog.component";
 
 @Component({
   selector: 'app-my-albums',
@@ -36,7 +37,11 @@ export class MyAlbumsComponent implements OnInit {
   }
 
   refresh() {
-    this.navigateToAlbum(this.albumName);
+    if (this.albumName == "INITIAL") {
+      this.navigateHome();
+    } else {
+      this.navigateToAlbum(this.albumName);
+    }
   }
 
   navigateHome(): void {
@@ -114,7 +119,23 @@ export class MyAlbumsComponent implements OnInit {
     });
   }
 
-  openShareFileDialog(fileName:string) {
+  openEditFileDialog(file: File) {
+    const dialogRef = this.dialog.open(EditFileDialogComponent, {
+      data: {
+        currentPath: this.albumName,
+        file: file
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.notificationService.showSuccess("File edited successfully", "File edited successfully", "topRight");
+        this.refresh();
+      }
+    });
+  }
+
+  openShareFileDialog(fileName: string) {
     const dialogRef = this.dialog.open(ShareFileDialogComponent, {
       data: {
         currentPath: this.albumName,

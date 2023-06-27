@@ -37,6 +37,19 @@ export class AuthService {
     this.storageService.clear();
   }
 
+  getUsernameFromToken(): string | null {
+    const token = this.getAuthToken();
+    if (!token) {
+      return null;
+    }
+
+    const tokenParts = token.split('.');
+    const payloadEncoded = tokenParts[1];
+    const payloadDecoded = atob(payloadEncoded);
+    const payload = JSON.parse(payloadDecoded);
+    return payload.username;
+  }
+
   setAuthToken(token: string) {
     this.storageService.setItem(this.tokenKey, token);
   }
